@@ -1,0 +1,60 @@
+<html>
+    <head>
+        <title>Dashboard Automation</title>
+    </head>
+    <body>
+        <div class="container online">
+            <table>
+                <thead>
+                    <tr>
+                    {% for key in online_records[0].keys() %}
+                        <td>{{ key }}</td>
+                    {% endfor %}
+                        <td>Status</td>
+                    </tr>
+                </thead>
+                <tbody>
+                        {% for row in online_records %}
+                            <tr>
+                                {% for key, value in row.items() %}
+                                    <td>{{ value }}</td>
+                                {% endfor %}
+                                <td class="status">Online</td>
+                            </tr>
+                        {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="container offline">
+            <table>
+                <thead>
+                    <tr>
+                    {% for key in all_records[0].keys() %}
+                        <td>{{ key }}</td>
+                    {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                        {% for row in all_records %}
+                            <tr>
+                                {% for key, value in row.items() %}
+                                    <td>{{ value }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </body>
+<style>
+    .container {
+        margin: 50px auto;
+        width: 1540px;
+        background-color: #EFEFEF;
+    }
+
+    .status {
+        color: green;
+    }
+</style>
+</html>
