@@ -68,8 +68,8 @@ class DAL:
             return False
         return True
 
-    def get_all_records(self):
-        self.cursor.execute('''SELECT * FROM `systems_meta`;''')
+    def get_older_records(self):
+        self.cursor.execute(f'''SELECT * FROM `systems_meta` WHERE last_updated < {int(time.time()) - 60};''')
         return self.cursor.fetchall()
 
     def get_all_recent_updated_records(self):
