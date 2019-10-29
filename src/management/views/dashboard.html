@@ -27,6 +27,8 @@
                     {% endfor %}
                     </tbody>
                 </table>
+                {{ graph_data.decode('utf-8') }}
+                <img src="data:image/png;base64,{{ graph_data }}" />
             </div>
             {% endif %}
         </div>
@@ -56,6 +58,7 @@
                     </tbody>
                 </table>
             </div>
+                <img src="data:image/png;base64,{{ graph_data }}" />
             {% endif %}
         </div>
 

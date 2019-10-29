@@ -2,6 +2,9 @@ import json
 import urllib.error
 import urllib.request
 import time
+import matplotlib.pyplot as plt
+import base64
+from io import BytesIO
 
 from jinja2 import Environment, PackageLoader
 
@@ -18,6 +21,7 @@ class GetHandler(AbstractRequestHandler):
         self.offline_machines = None
         self.random_quote_content = None
         self.random_quote_author = None
+        self.graph_data = None
         try:
             self.env = Environment(loader=PackageLoader('management', 'views'))
             self.template = self.env.get_template('dashboard.html')
@@ -63,9 +67,16 @@ class GetHandler(AbstractRequestHandler):
         self.online_machines = self._prepare_data(self.dal.get_all_recent_updated_records())
         self.offline_machines = self._prepare_data(self.dal.get_older_records())
 
+        fig = plt.figure()
+        tmpfile = BytesIO()
+        fig.savefig(tmpfile, format='png')
+        encoded = base64.b64encode(tmpfile.getvalue())
+        self.graph_data = encoded.decode('utf-8')
+
         print(self.template.render(
             online_machines=self.online_machines,
             offline_machines=self.offline_machines,
             random_quote_content=self.random_quote_content,
             random_quote_author=self.random_quote_author,
+            graph_data=self.graph_data
         ))
