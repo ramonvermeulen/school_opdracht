@@ -4,6 +4,7 @@ import urllib.request
 import time
 import matplotlib.pyplot as plt
 import base64
+import numpy as np
 from io import BytesIO
 
 from jinja2 import Environment, PackageLoader
@@ -63,15 +64,33 @@ class GetHandler(AbstractRequestHandler):
             self.random_quote_author = 'System'
 
     def handle_request(self, data=None):
+        self.offline_machines = self.dal.get_older_records()
+        self.online_machines = self.dal.get_all_recent_updated_records()
+        machines = ()
+        data = []
+
+        for record in self.online_machines:
+            machines += (record.get('id'),)
+            data.append(float(record.get('mem_used_perc')))
+        y_pos = [i for i, _ in enumerate(machines)]
+
+        plt.barh(y_pos, data)
+        plt.yticks(y_pos, machines, )
+        # plt.yscale(100)
+        plt.xlabel('Memory used percentage')
+        plt.ylabel('Machines')
+        plt.tight_layout()
+        plt.gca().set_xlim([0, 100])
+
+
+        tmpfile = BytesIO()
+        plt.savefig(tmpfile, format='png')
+        encoded = base64.b64encode(tmpfile.getvalue())
+        self.graph_data = encoded.decode('utf-8')
+
         self._get_random_quote()
         self.online_machines = self._prepare_data(self.dal.get_all_recent_updated_records())
         self.offline_machines = self._prepare_data(self.dal.get_older_records())
-
-        fig = plt.figure()
-        tmpfile = BytesIO()
-        fig.savefig(tmpfile, format='png')
-        encoded = base64.b64encode(tmpfile.getvalue())
-        self.graph_data = encoded.decode('utf-8')
 
         print(self.template.render(
             online_machines=self.online_machines,

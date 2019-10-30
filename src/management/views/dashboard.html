@@ -27,10 +27,17 @@
                     {% endfor %}
                     </tbody>
                 </table>
-                {{ graph_data.decode('utf-8') }}
-                <img src="data:image/png;base64,{{ graph_data }}" />
             </div>
             {% endif %}
+
+            <div class="container row">
+                <div class="row-item">
+                    <h3>Memory usage</h3>
+                    <img src="data:image/png;base64,{{ graph_data }}" />
+                </div>
+                    <h3>Memory usage</h3>
+                    <img src="data:image/png;base64,{{ graph_data }}" />
+            </div>
         </div>
 
         <div class="block">
@@ -58,8 +65,15 @@
                     </tbody>
                 </table>
             </div>
-                <img src="data:image/png;base64,{{ graph_data }}" />
             {% endif %}
+
+            <div class="container row">
+                <div class="row-item">
+                    <img src="data:image/png;base64,{{ graph_data }}" />
+                </div>
+                <div class="row-item">Text</div>
+            </div>
+
         </div>
 
         <div class="block">
@@ -82,6 +96,10 @@
         vertical-align: top;
     }
 
+    img {
+        border-radius: 14px;
+    }
+
     tr:hover {
         background-color: #A5D8FF;
         color: #36393B;
@@ -99,6 +117,14 @@
         margin: 0 auto;
         width: 1540px;
         padding: 50px 0;
+    }
+
+    .container.row {
+        display: flex;
+    }
+
+    .row-item {
+        flex: 1;
     }
 
     .online-status {
