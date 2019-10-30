@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+    agent:
+      build: ./agent
+      volumes:
+        - ./agent
