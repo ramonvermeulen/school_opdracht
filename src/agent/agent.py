@@ -39,7 +39,7 @@ def job():
             if response.status == 200:
                 print(f'{datetime.fromtimestamp(int(time.time()))} - Successful request', flush=True)
     except Exception as e:
-        print(f'{datetime.fromtimestamp(int(time.time()))} - Some kind of error occurred!\n{e}', flush=True)
+        print(f'{datetime.fromtimestamp(int(time.time()))} - Some kind of error occurred!\n{e}\n{URL}', flush=True)
 
 
 if __name__ == '__main__':
