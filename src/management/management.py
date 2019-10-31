@@ -5,7 +5,7 @@ import os
 from utils.status import RequestStatus
 from management.post_handler import PostHandler
 from management.get_handler import GetHandler
-from utils.cgi_to_dict import cgi_field_storage_to_dict
+from utils import cgi_field_storage_to_dict
 
 cgitb.enable()
 

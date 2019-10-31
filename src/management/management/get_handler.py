@@ -4,13 +4,12 @@ import urllib.request
 import time
 import matplotlib.pyplot as plt
 import base64
-import numpy as np
 from io import BytesIO
 
 from jinja2 import Environment, PackageLoader
 
 from management.request_handler import AbstractRequestHandler
-from utils.bytes_formatter import size_formatter
+from utils import size_formatter
 
 
 class GetHandler(AbstractRequestHandler):
@@ -22,7 +21,8 @@ class GetHandler(AbstractRequestHandler):
         self.offline_machines = None
         self.random_quote_content = None
         self.random_quote_author = None
-        self.graph_data = None
+        self.graph_data_mem = None
+        self.graph_data_cpu = None
         try:
             self.env = Environment(loader=PackageLoader('management', 'views'))
             self.template = self.env.get_template('dashboard.html')
@@ -63,30 +63,31 @@ class GetHandler(AbstractRequestHandler):
             self.random_quote_content = 'Some kind of error occurred'
             self.random_quote_author = 'System'
 
-    def handle_request(self, data=None):
-        self.offline_machines = self.dal.get_older_records()
-        self.online_machines = self.dal.get_all_recent_updated_records()
+    def _generate_graph(self, data_key, x_label, y_label, minimum=0, maximum=100):
         machines = ()
         data = []
 
         for record in self.online_machines:
             machines += (record.get('id'),)
-            data.append(float(record.get('mem_used_perc')))
+            data.append(float(record.get(data_key)))
         y_pos = [i for i, _ in enumerate(machines)]
 
         plt.barh(y_pos, data)
         plt.yticks(y_pos, machines, )
-        # plt.yscale(100)
-        plt.xlabel('Memory used percentage')
-        plt.ylabel('Machines')
+        plt.xlabel(x_label)
+        plt.ylabel(y_label)
         plt.tight_layout()
-        plt.gca().set_xlim([0, 100])
-
+        plt.gca().set_xlim([minimum, maximum])
 
         tmpfile = BytesIO()
         plt.savefig(tmpfile, format='png')
-        encoded = base64.b64encode(tmpfile.getvalue())
-        self.graph_data = encoded.decode('utf-8')
+        return base64.b64encode(tmpfile.getvalue())
+
+    def handle_request(self, data=None):
+        self.offline_machines = self.dal.get_older_records()
+        self.online_machines = self.dal.get_all_recent_updated_records()
+        self.graph_data_mem = self._generate_graph('mem_used_perc', 'Machines', 'Used memory percentage').decode('utf-8')
+        self.graph_data_cpu = self._generate_graph('cpu_perc', 'Machines', 'Used memory percentage').decode('utf-8')
 
         self._get_random_quote()
         self.online_machines = self._prepare_data(self.dal.get_all_recent_updated_records())
@@ -97,5 +98,6 @@ class GetHandler(AbstractRequestHandler):
             offline_machines=self.offline_machines,
             random_quote_content=self.random_quote_content,
             random_quote_author=self.random_quote_author,
-            graph_data=self.graph_data
+            graph_data_mem=self.graph_data_mem,
+            graph_data_cpu=self.graph_data_cpu,
         ))
