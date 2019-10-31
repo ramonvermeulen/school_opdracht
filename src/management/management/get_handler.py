@@ -81,6 +81,7 @@ class GetHandler(AbstractRequestHandler):
 
         tmpfile = BytesIO()
         plt.savefig(tmpfile, format='png')
+        plt.clf()
         return base64.b64encode(tmpfile.getvalue()).decode('ascii')
 
     def handle_request(self, data=None):
