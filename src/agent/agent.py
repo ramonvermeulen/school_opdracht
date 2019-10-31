@@ -10,8 +10,8 @@ import schedule
 from utils.payload import PayLoad
 
 HOST_NAME = socket.gethostname()
-UNIQUE_IDENTIFIER = f'{HOST_NAME}-{socket.gethostbyname(HOST_NAME)}'
-URL = os.environ.get('DESTINATION', 'http://localhost:80/cgi-bin/src/management.py')
+UNIQUE_IDENTIFIER = f'{HOST_NAME}-{os.environ.get("EXTERNAL_IP", socket.gethostbyname(HOST_NAME)).split(" ")[0]}'
+URL = os.environ.get('DESTINATION_HOST', 'http://localhost:80/cgi-bin/src/management.py')
 
 
 def job():
@@ -39,7 +39,7 @@ def job():
             if response.status == 200:
                 print(f'{datetime.fromtimestamp(int(time.time()))} - Successful request', flush=True)
     except Exception as e:
-        print(f'{datetime.fromtimestamp(int(time.time()))} - Some kind of error occurred!\n{e}', flush=True)
+        print(f'{datetime.fromtimestamp(int(time.time()))} - Some kind of error occurred!\n{e}\n{URL}', flush=True)
 
 
 if __name__ == '__main__':

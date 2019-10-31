@@ -1,8 +1,24 @@
-
 class PayLoad:
+    """
+    >>> p = PayLoad()
+    >>> isinstance(p, PayLoad)
+    True
+
+    Shared PayLoad class between agent and management script
+    """
+
     def __init__(self, identifier=None, last_updated=None, cpu_count=None, cpu_freq=None, cpu_perc=None, mem_total=None,
                  mem_available=None, mem_used=None, mem_free=None, mem_used_perc=None, swap_total=None, swap_used=None,
                  swap_free=None, swap_used_perc=None, data=None):
+        """
+        >>> p = PayLoad(identifier='test', last_updated='yesterday')
+        >>> isinstance(p, PayLoad)
+        True
+        >>> p.IDENTIFIER == 'test'
+        True
+        >>> p.LAST_UPDATED == 'yesterday'
+        True
+        """
         if data is None:
             data = dict()
         self.IDENTIFIER = data.get('IDENTIFIER', identifier)
@@ -21,9 +37,31 @@ class PayLoad:
         self.SWAP_USED_PERC = data.get('SWAP_USED_PERC', swap_used_perc)
 
     def to_dict(self):
+        """
+        >>> p = PayLoad()
+        >>> p_dict = p.to_dict()
+        >>> isinstance(p_dict, dict)
+        True
+
+        in: self
+        out: dict()
+        desc: returns object properties as dict
+        """
         return self.__dict__
 
     def to_tuple(self):
+        """
+        >>> p = PayLoad(identifier='test')
+        >>> p_tuple = p.to_tuple()
+        >>> isinstance(p_tuple, tuple)
+        True
+        >>> p_tuple[0] == 'test'
+        True
+
+        in: self
+        out: dict()
+        desc: returns object properties as tuple
+        """
         return (self.IDENTIFIER, self.LAST_UPDATED, self.CPU_COUNT, self.CPU_FREQ, self.CPU_PERC, self.MEM_TOTAL,
                 self.MEM_AVAILABLE, self.MEM_USED, self.MEM_FREE, self.MEM_USED_PERC, self.SWAP_TOTAL, self.SWAP_USED,
                 self.SWAP_FREE, self.SWAP_USED_PERC)
