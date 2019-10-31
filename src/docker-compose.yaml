@@ -2,8 +2,12 @@ version: '3'
 
 services:
     agent:
+      restart: always
       build: ./agent
+      environment:
+        - DESTINATION_HOST=${DESTINATION_HOST}
     management:
+      restart: always
       build: ./management
       volumes:
         - /data:/data

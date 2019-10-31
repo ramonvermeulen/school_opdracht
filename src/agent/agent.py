@@ -11,7 +11,7 @@ from utils.payload import PayLoad
 
 HOST_NAME = socket.gethostname()
 UNIQUE_IDENTIFIER = f'{HOST_NAME}-{socket.gethostbyname(HOST_NAME)}'
-URL = os.environ.get('DESTINATION', 'http://localhost:80/cgi-bin/src/management.py')
+URL = os.environ.get('DESTINATION_HOST', 'http://localhost:80/cgi-bin/src/management.py')
 
 
 def job():
