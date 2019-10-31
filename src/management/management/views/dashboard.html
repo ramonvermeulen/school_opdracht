@@ -1,0 +1,112 @@
+<html>
+    <head>
+        <title>Dashboard Automation</title>
+    </head>
+    <body>
+        <div class="block">
+            {% if online_machines|length > 0: %}
+            <div class="container online">
+                <h1 class="online-status">Online machines</h1>
+                <table>
+                    <thead>
+                        <tr>
+                        {% for key in online_machines[0].keys() %}
+                            <td>{{ key.replace('_', ' ').capitalize() }}</td>
+                        {% endfor %}
+                            <td>Status</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for row in online_machines %}
+                        <tr>
+                            {% for key, value in row.items() %}
+                                <td>{{ value }}</td>
+                            {% endfor %}
+                            <td class="online-status">Online</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="block">
+            {% if offline_machines|length > 0: %}
+            <div class="container offline">
+                <h1 class="offline-status">Offline machines</h1>
+                <table>
+                    <thead>
+                        <tr>
+                        {% for key in offline_machines[0].keys() %}
+                            <td>{{ key.replace('_', ' ').capitalize() }}</td>
+                        {% endfor %}
+                            <td>Status</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for row in offline_machines %}
+                        <tr>
+                        {% for key, value in row.items() %}
+                            <td>{{ value }}</td>
+                        {% endfor %}
+                            <td class="offline-status">Offline</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="block">
+            <div class="container">
+                <h1>Random quote</h1>
+                <h2>"{{ random_quote_content }}"</h2>
+                <h5>by {{ random_quote_author }}</h5>
+            </div>
+        </div>
+    </body>
+<style>
+    body {
+        background-color: #AFD0D6;
+        color: #A5D8FF;
+        font-family: courier, arial, helvetica, monospace;
+    }
+
+    thead {
+        font-weight: bold;
+        vertical-align: top;
+    }
+
+    tr:hover {
+        background-color: #A5D8FF;
+        color: #36393B;
+    }
+
+    .block {
+        display: block;
+        background-color: #36393B;
+        margin: 50px;
+        border-radius: 14px;
+    }
+
+    .container {
+        display: block;
+        margin: 0 auto;
+        width: 1540px;
+        padding: 50px 0;
+    }
+
+    .online-status {
+        color: green;
+    }
+
+    .offline-status {
+        color: red;
+    }
+</style>
+<script>
+    window.setTimeout(() => document.location.reload(true), 15000)
+</script>
+</html>

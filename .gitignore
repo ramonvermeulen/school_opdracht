@@ -1,3 +1,5 @@
 /venv
 *.idea
 /.idea
+notities
+__pycache__
