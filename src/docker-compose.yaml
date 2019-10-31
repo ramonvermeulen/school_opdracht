@@ -6,6 +6,7 @@ services:
       build: ./agent
       environment:
         - DESTINATION_HOST=${DESTINATION_HOST}
+        - EXTERNAL_IP=${EXTERNAL_IP}
     management:
       restart: always
       build: ./management
