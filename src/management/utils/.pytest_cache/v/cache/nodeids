@@ -1,7 +1,0 @@
-[
-  "__init__.py::utils.size_formatter",
-  "payload.py::utils.payload.PayLoad",
-  "payload.py::utils.payload.PayLoad.__init__",
-  "payload.py::utils.payload.PayLoad.to_dict",
-  "payload.py::utils.payload.PayLoad.to_tuple"
-]
