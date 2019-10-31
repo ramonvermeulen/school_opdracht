@@ -4,9 +4,9 @@
     </head>
     <body>
         <div class="block">
-            {% if online_machines|length > 0: %}
-            <div class="container online">
-                <h1 class="online-status">Online machines</h1>
+        <div class="container online">
+            <h1 class="online-status">Online machines</h1>
+                {% if online_machines|length > 0: %}
                 <table>
                     <thead>
                         <tr>
@@ -27,14 +27,29 @@
                     {% endfor %}
                     </tbody>
                 </table>
+                {% else: %}
+                <div>No online machines found</div>
+                {% endif %}
+            </div>
+
+            {% if graph_data: %}
+            <div class="container row">
+                <div class="row-item">
+                    <h3>Memory usage</h3>
+                    <img src="data:image/png;base64,{{ graph_data_memory }}" />
+                </div>
+                <div class="row-item">
+                    <h3>Cpu usage</h3>
+                    <img src="data:image/png;base64,{{ graph_data_cpu }}" />
+                </div>
             </div>
             {% endif %}
         </div>
 
         <div class="block">
-            {% if offline_machines|length > 0: %}
             <div class="container offline">
                 <h1 class="offline-status">Offline machines</h1>
+               {% if offline_machines|length > 0: %}
                 <table>
                     <thead>
                         <tr>
@@ -55,8 +70,10 @@
                     {% endfor %}
                     </tbody>
                 </table>
+                {% else: %}
+                <div>No offline machines found</div>
+                {% endif %}
             </div>
-            {% endif %}
         </div>
 
         <div class="block">
@@ -79,6 +96,10 @@
         vertical-align: top;
     }
 
+    img {
+        border-radius: 14px;
+    }
+
     tr:hover {
         background-color: #A5D8FF;
         color: #36393B;
@@ -96,6 +117,14 @@
         margin: 0 auto;
         width: 1540px;
         padding: 50px 0;
+    }
+
+    .container.row {
+        display: flex;
+    }
+
+    .row-item {
+        flex: 1;
     }
 
     .online-status {

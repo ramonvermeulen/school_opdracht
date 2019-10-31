@@ -3,3 +3,4 @@
 /.idea
 notities
 __pycache__
+*.pyc
