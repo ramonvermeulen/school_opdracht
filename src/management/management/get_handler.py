@@ -63,7 +63,7 @@ class GetHandler(AbstractRequestHandler):
             self.random_quote_content = 'Some kind of error occurred'
             self.random_quote_author = 'System'
 
-    def _generate_graph(self, data_key, x_label, y_label, minimum=0, maximum=100):
+    def _generate_graph_base64_string(self, data_key, x_label, y_label, minimum=0, maximum=100):
         machines = ()
         data = []
 
@@ -81,13 +81,13 @@ class GetHandler(AbstractRequestHandler):
 
         tmpfile = BytesIO()
         plt.savefig(tmpfile, format='png')
-        return base64.b64encode(tmpfile.getvalue())
+        return base64.b64encode(tmpfile.getvalue()).decode('ascii')
 
     def handle_request(self, data=None):
         self.offline_machines = self.dal.get_older_records()
         self.online_machines = self.dal.get_all_recent_updated_records()
-        self.graph_data_mem = self._generate_graph('mem_used_perc', 'Machines', 'Used memory percentage').decode('utf-8')
-        self.graph_data_cpu = self._generate_graph('cpu_perc', 'Machines', 'Used memory percentage').decode('utf-8')
+        self.graph_data_mem = self._generate_graph_base64_string('mem_used_perc', 'Machines', 'Used memory percentage')
+        self.graph_data_cpu = self._generate_graph_base64_string('cpu_perc', 'Machines', 'Used memory percentage')
 
         self._get_random_quote()
         self.online_machines = self._prepare_data(self.dal.get_all_recent_updated_records())
