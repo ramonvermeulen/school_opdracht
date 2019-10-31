@@ -10,7 +10,7 @@ RUN service apache2 restart
 ADD . /usr/lib/cgi-bin
 RUN chmod -R 705 /usr/lib/cgi-bin
 RUN mkdir /data
-RUN chmod -R 777 /data
+RUN chmod -R 775 /data
 
 RUN ["pip3", "install", "-r", "/usr/lib/cgi-bin/requirements.txt"]
 
