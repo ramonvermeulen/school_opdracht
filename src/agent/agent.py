@@ -10,7 +10,7 @@ import schedule
 from utils.payload import PayLoad
 
 HOST_NAME = socket.gethostname()
-UNIQUE_IDENTIFIER = f'{HOST_NAME}-{os.environ.get("EXTERNAL_IP", socket.gethostbyname(HOST_NAME))}'
+UNIQUE_IDENTIFIER = f'{HOST_NAME}-{os.environ.get("EXTERNAL_IP", socket.gethostbyname(HOST_NAME)).split(" ")[0]}'
 URL = os.environ.get('DESTINATION_HOST', 'http://localhost:80/cgi-bin/src/management.py')
 
 
