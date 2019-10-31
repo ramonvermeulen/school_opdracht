@@ -3,5 +3,9 @@ version: '3'
 services:
     agent:
       build: ./agent
+    management:
+      build: ./management
       volumes:
-        - ./agent
+        - /data:/data
+      ports:
+        - "8081:80"
