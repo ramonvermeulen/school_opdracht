@@ -32,11 +32,11 @@
                 {% endif %}
             </div>
 
-            {% if graph_data_memory and graph_data_cpu: %}
+            {% if graph_data_mem and graph_data_cpu: %}
             <div class="container row">
                 <div class="row-item">
                     <h3>Memory usage</h3>
-                    <img src="data:image/png;base64,{{ graph_data_memory }}" />
+                    <img src="data:image/png;base64,{{ graph_data_mem }}" />
                 </div>
                 <div class="row-item">
                     <h3>Cpu usage</h3>
