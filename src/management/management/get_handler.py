@@ -87,7 +87,7 @@ class GetHandler(AbstractRequestHandler):
         self.offline_machines = self.dal.get_older_records()
         self.online_machines = self.dal.get_all_recent_updated_records()
         self.graph_data_mem = self._generate_graph_base64_string('mem_used_perc', 'Machines', 'Used memory percentage')
-        self.graph_data_cpu = self._generate_graph_base64_string('cpu_perc', 'Machines', 'Used memory percentage')
+        self.graph_data_cpu = self._generate_graph_base64_string('cpu_perc', 'Machines', 'Used cpu percentage')
 
         self._get_random_quote()
         self.online_machines = self._prepare_data(self.dal.get_all_recent_updated_records())
