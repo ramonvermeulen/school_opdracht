@@ -11,7 +11,6 @@ class PostHandler(AbstractRequestHandler):
     def handle_request(self, data=None):
         try:
             payload = PayLoad(data=data)
-            self.dal.create_table_if_not_exists()
             if self.dal.already_exists(payload.IDENTIFIER):
                 self.dal.update_record(payload)
             else:

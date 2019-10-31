@@ -31,6 +31,7 @@ class DAL:
         self.connection = sqlite3.connect(os.environ.get('DB_LOCATION', '/data/data.db'))
         self.cursor = self.connection.cursor()
         self.cursor.row_factory = self._dict_factory
+        self._create_table_if_not_exists()
 
     def __del__(self):
         self.cursor.close()
@@ -43,7 +44,7 @@ class DAL:
             dict_record[col[0]] = row[idx]
         return dict_record
 
-    def create_table_if_not_exists(self):
+    def _create_table_if_not_exists(self):
         self.cursor.execute('''SELECT name FROM `sqlite_master` WHERE type='table' AND name='systems_meta';''')
         if len(self.cursor.fetchall()) == 0:
             self.cursor.executescript(create_table_script)

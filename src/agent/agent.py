@@ -1,12 +1,13 @@
-import urllib.request
-import urllib.parse
-from utils.payload import PayLoad
-import schedule
-import time
 import os
-import psutil
 import socket
-import uuid
+import time
+import urllib.parse
+import urllib.request
+from datetime import datetime
+import psutil
+import schedule
+
+from utils.payload import PayLoad
 
 HOST_NAME = socket.gethostname()
 UNIQUE_IDENTIFIER = f'{HOST_NAME}-{socket.gethostbyname(HOST_NAME)}'
@@ -33,9 +34,12 @@ def job():
     data = urllib.parse.urlencode(payload)
     data = data.encode('ascii')
     req = urllib.request.Request(URL, data)
-    with urllib.request.urlopen(req) as response:
-        if response.status == 200:
-            print(True)
+    try:
+        with urllib.request.urlopen(req) as response:
+            if response.status == 200:
+                print(f'{datetime.fromtimestamp(int(time.time()))} - Successful request', flush=True)
+    except Exception as e:
+        print(f'{datetime.fromtimestamp(int(time.time()))} - Some kind of error occurred!\n{e}', flush=True)
 
 
 if __name__ == '__main__':
