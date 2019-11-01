@@ -85,7 +85,7 @@ class GetHandler(AbstractRequestHandler):
         plt.gca().set_xlim([minimum, maximum])
 
         tmpfile = BytesIO()
-        plt.savefig(tmpfile, format='png', dpi=25)
+        plt.savefig(tmpfile, format='png')
         plt.clf()
         plt.close()
         return base64.b64encode(tmpfile.getvalue()).decode('ascii')
