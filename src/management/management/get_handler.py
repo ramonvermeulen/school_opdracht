@@ -75,7 +75,7 @@ class GetHandler(AbstractRequestHandler):
             data.append(float(record.get(data_key)))
         y_pos = [i for i, _ in enumerate(machines)]
 
-        plt.rcParams['figure.figsize'] = (6, 3)
+        plt.rcParams['figure.figsize'] = (7, 3)
 
         plt.barh(y_pos, data)
         plt.yticks(y_pos, machines, )
