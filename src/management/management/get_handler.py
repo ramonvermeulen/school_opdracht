@@ -75,6 +75,8 @@ class GetHandler(AbstractRequestHandler):
             data.append(float(record.get(data_key)))
         y_pos = [i for i, _ in enumerate(machines)]
 
+        plt.rcParams['figure.figsize'] = (25, 10)
+
         plt.barh(y_pos, data)
         plt.yticks(y_pos, machines, )
         plt.xlabel(x_label)
@@ -83,8 +85,7 @@ class GetHandler(AbstractRequestHandler):
         plt.gca().set_xlim([minimum, maximum])
 
         tmpfile = BytesIO()
-        plt.rcParams['figure.figsize'] = (25, 10)
-        plt.savefig(tmpfile, format='png', dpi=20)
+        plt.savefig(tmpfile, format='png', dpi=50)
         plt.clf()
         plt.close()
         return base64.b64encode(tmpfile.getvalue()).decode('ascii')
