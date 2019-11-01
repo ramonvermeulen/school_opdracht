@@ -46,10 +46,13 @@ class GetHandler(AbstractRequestHandler):
     def _get_random_quote(self):
         try:
             response = urllib.request.urlopen(self.random_quote_api)
-            encoding = response.info().get_content_charset('utf-8')
+            encoding = response.info().get_content_charset('ascii')
             json_response = json.loads(response.read().decode(encoding))
             self.random_quote_content = json_response.get('content')
             self.random_quote_author = json_response.get('author')
+        except UnicodeDecodeError:
+            self.random_quote_content = 'Couldn\'t decode the data from the Quote API to ascii'
+            self.random_quote_author = 'System'
         except urllib.error.HTTPError:
             self.random_quote_content = 'An error occurred while trying to fetch from the Quote API'
             self.random_quote_author = 'System'
@@ -80,7 +83,8 @@ class GetHandler(AbstractRequestHandler):
         plt.gca().set_xlim([minimum, maximum])
 
         tmpfile = BytesIO()
-        plt.savefig(tmpfile, format='png')
+        plt.rcParams['figure.figsize'] = (20,10)
+        plt.savefig(tmpfile, format='png', dpi=500)
         plt.clf()
         plt.close()
         return base64.b64encode(tmpfile.getvalue()).decode('ascii')
